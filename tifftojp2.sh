@@ -32,7 +32,7 @@ kduPath=~/kakadu
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$kduPath
 
 # Log file (used too store Kakadu and Exiftool stdout, stderr)
-logFile=log.txt
+logFile=tifftojp2.log
 
 # Remove log file if it exists already (writing done in append mode!)
 if [ -f $logFile ] ; then
