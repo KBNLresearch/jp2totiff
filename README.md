@@ -15,3 +15,20 @@ Requires:
     - Kakadu (kdu_expand)
     - ExifTool
     - realpath
+
+### tifftojp2.sh
+
+Takes a  directory tree with TIFF images, and converts them to JP2.
+
+Usage:
+
+    tifftojp2.sh dirIn dirOut
+
+The directory structure of *dirIn* is cloned to *dirOut*.
+
+Requires:
+
+    - Kakadu (kdu_expand)
+    - ExifTool
+    - realpath
+ 

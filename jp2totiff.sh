@@ -79,7 +79,7 @@ while IFS= read -d $'\0' -r file ; do
     kduCmd="$kduPath/kdu_expand -i "$file"
             -o "$tiffOut""
 
-    # Convert to TIFF   
+    # Convert to TIFF
     $kduCmd >>$logFile 2>&1
 
     echo "*** Exiftool log: ***" >> $logFile
