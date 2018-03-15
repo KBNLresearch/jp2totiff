@@ -34,6 +34,9 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$kduPath
 # Log file (used too store Kakadu and Exiftool stdout, stderr)
 logFile=tifftojp2.log
 
+# Checksum file
+checksumFile=$dirOut/checksums.md5
+
 # Remove log file if it exists already (writing done in append mode!)
 if [ -f $logFile ] ; then
   rm $logFile
@@ -145,6 +148,8 @@ while IFS= read -d $'\0' -r file ; do
  
     # Remove XMP sidecar file
     rm $xmpName
+
+    md5sum "$jp2Out" >> $checksumFile
 
     echo "------" >> $logFile
 

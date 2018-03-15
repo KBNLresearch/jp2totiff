@@ -34,6 +34,9 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$kduPath
 # Log file (used too store Kakadu and Exiftool stdout, stderr)
 logFile=jp2totiff.log
 
+# Checksum file
+checksumFile=$dirOut/checksums.md5
+
 # Remove log file if it exists already (writing done in append mode!)
 if [ -f $logFile ] ; then
   rm $logFile
@@ -88,6 +91,9 @@ while IFS= read -d $'\0' -r file ; do
     # Skipping this step results in not well-formed XML
     # in round-trip JP2 generation with Kakadu (uuidbox)
     exiftool -xmp:all= "-all:all<xmp-tiff:all" "$tiffOut" >>$logFile 2>&1
+
+    # Compute MD5 checksum
+    md5sum "$tiffOut" >> $checksumFile
 
     echo "------" >> $logFile
 
