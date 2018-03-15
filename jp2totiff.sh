@@ -103,3 +103,6 @@ while IFS= read -d $'\0' -r file ; do
     echo "------" >> $logFile
 
 done < <(find $dirIn -type f -regex '.*\.\(jp2\|JP2\)' -print0)
+
+# Power off the machine
+poweroff
