@@ -4,6 +4,7 @@
 # Requires: 
 # - Kakadu (kdu_expand)
 # - ExifTool
+# - tiffinfo
 # - realpath
 
 
@@ -94,6 +95,10 @@ while IFS= read -d $'\0' -r file ; do
 
     # Compute MD5 checksum
     md5sum "$tiffOut" >> $checksumFile
+
+    # Run TIFF through TIFFInfo, errors to log file
+    echo "*** tiffinfo stderr: ***" >> $logFile
+    tiffinfo -d "$tiffOut" 2>> $logFile >/dev/null
 
     echo "------" >> $logFile
 
