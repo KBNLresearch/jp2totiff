@@ -32,15 +32,26 @@ kduPath=~/kakadu
 # Add Kakadu path to LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$kduPath
 
-# Log file (used too store Kakadu and Exiftool stdout, stderr)
+# Log file (used to store Kakadu and Exiftool stdout, stderr)
 logFile=$dirOut/jp2totiff.log
+
+# Kakadu status file (used to store Kakadu exit status)
+kakaduStatusFile=$dirOut/kduStatus.csv
 
 # Checksum file
 checksumFile=$dirOut/checksums.md5
 
-# Remove log file if it exists already (writing done in append mode!)
+# Remove log and checksum files if they exist already (writing done in append mode!)
 if [ -f $logFile ] ; then
   rm $logFile
+fi
+
+if [ -f $kakaduStatusFile ] ; then
+  rm $kakaduStatusFile
+fi
+
+if [ -f $checksumFile ] ; then
+  rm $checksumFile
 fi
 
 # First clone the directory structure of dirIn to dirOut 
@@ -85,6 +96,8 @@ while IFS= read -d $'\0' -r file ; do
 
     # Convert to TIFF
     $kduCmd >>$logFile 2>&1
+    kakaduStatus=$?
+    echo $tiffOut,$kakaduStatus >> $kakaduStatusFile
 
     echo "*** Exiftool log: ***" >> $logFile
 
@@ -105,4 +118,4 @@ while IFS= read -d $'\0' -r file ; do
 done < <(find $dirIn -type f -regex '.*\.\(jp2\|JP2\)' -print0)
 
 # Power off the machine
-poweroff
+# poweroff
