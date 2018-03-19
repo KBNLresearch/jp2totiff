@@ -32,14 +32,25 @@ kduPath=~/kakadu
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$kduPath
 
 # Log file (used too store Kakadu and Exiftool stdout, stderr)
-logFile=tifftojp2.log
+logFile=$dirOut/tifftojp2.log
+
+# Kakadu status file (used to store Kakadu exit status)
+kakaduStatusFile=$dirOut/kduStatus.csv
 
 # Checksum file
 checksumFile=$dirOut/checksums.md5
 
-# Remove log file if it exists already (writing done in append mode!)
+# Remove log and checksum files if they exist already (writing done in append mode!)
 if [ -f $logFile ] ; then
   rm $logFile
+fi
+
+if [ -f $kakaduStatusFile ] ; then
+  rm $kakaduStatusFile
+fi
+
+if [ -f $checksumFile ] ; then
+  rm $checksumFile
 fi
 
 # Codestream comment strings for master and access images
@@ -145,6 +156,9 @@ while IFS= read -d $'\0' -r file ; do
 
     # Convert to JP2
     $cmdlineMaster >>$logFile 2>&1
+
+    kakaduStatus=$?
+    echo $jp2Out,$kakaduStatus >> $kakaduStatusFile
  
     # Remove XMP sidecar file
     rm $xmpName
