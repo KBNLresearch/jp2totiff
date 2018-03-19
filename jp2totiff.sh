@@ -91,7 +91,7 @@ while IFS= read -d $'\0' -r file ; do
     # Remove XMP tags, except xmp-tiff ones
     # Skipping this step results in not well-formed XML
     # in round-trip JP2 generation with Kakadu (uuidbox)
-    exiftool -xmp:all= "-all:all<xmp-tiff:all" "$tiffOut" >>$logFile 2>&1
+    exiftool -overwrite_original -xmp:all= "-all:all<xmp-tiff:all" "$tiffOut" >>$logFile 2>&1
 
     # Compute MD5 checksum
     md5sum "$tiffOut" >> $checksumFile
