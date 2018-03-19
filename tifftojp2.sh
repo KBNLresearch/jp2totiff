@@ -168,3 +168,6 @@ while IFS= read -d $'\0' -r file ; do
     echo "------" >> $logFile
 
 done < <(find $dirIn -type f -regex '.*\.\(tiff\|TIFF\|tif\|TIF\)' -print0)
+
+# Power off the machine
+# poweroff
