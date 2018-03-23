@@ -163,7 +163,7 @@ while IFS= read -d $'\0' -r file ; do
     # Remove XMP sidecar file
     rm $xmpName
 
-    md5sum "$jp2Out" >> $checksumFile
+    #md5sum "$jp2Out" >> $checksumFile
 
     echo "------" >> $logFile
 
