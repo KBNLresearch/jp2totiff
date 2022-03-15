@@ -36,11 +36,22 @@ sudo apt-get install pkg-config libltdl-dev liblcms2-dev libtiff-dev libpng-dev 
 ```
 ## Grok build process 
 
+Clone repository (note: should really download source ZIP from latest release, but couldn't succesfully compile that bc of problems with third-party libraries,  which was apparently fixed recently):
+
+```
+git clone https://github.com/GrokImageCompression/grok.git
+```
+
+<!--
 Download latest source distribution from:
 
 <https://github.com/GrokImageCompression/grok/releases>
+</strike>
+Then unzip.
 
-Then unzip, and go to Grok directory:
+-->
+
+Go to Grok directory:
 
 ```
 cd grok
