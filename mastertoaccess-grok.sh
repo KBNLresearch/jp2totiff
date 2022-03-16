@@ -30,8 +30,8 @@ if ! [ -d "$dirAccess" ] ; then
   mkdir "$dirAccess"
 fi
 
-# Log file (used too store Kakadu and Exiftool stdout, stderr)
-logFile=$dirOut/tifftojp2.log
+# Log file (used too store Grok stdout, stderr)
+logFile=$dirOut/mastertoaccess-grok.log
 
 # Grok status file (used to store Kakadu exit status)
 grokStatusFile=$dirOut/grokStatus.csv
