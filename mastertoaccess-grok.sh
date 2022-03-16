@@ -5,7 +5,6 @@
 # - Grok
 # - ExifTool
 # - realpath
-# - jprofile
 
 if [ "$#" -ne 2 ] ; then
   echo "Usage: mastertoaccess-grok.sh dirIn dirOut" >&2
@@ -87,14 +86,15 @@ while IFS= read -d $'\0' -r file ; do
     grokDecompressStatus=$?
     echo $tifOut,$grokDecompressStatus >> $grokStatusFile
 
-    # Remove all metadata from TIFF
+    # Remove all metadata from TIFF, except ICC profile
     # WORKAROUND for apparent bug in grk_compress
     # that results in malformed embedded metadata!
     exiftool -overwrite_original -all= -TagsFromFile @ -ColorSpaceTags "$tifOut"
 
     # Convert TIFF to lossy access JP2 according to KB specs
-    # Note: for some reason setting the -t option results
-    # in malformed XML data inside the UUID box!
+    # Note: XMP metadata are written to UUID box, whereas KB
+    # specs prescribe XML box. Don't think this is a problem
+    # for access images. 
     cmdCompress="grk_compress -i "$tifOut"
            -o "$jp2Out"
            -I
@@ -125,6 +125,6 @@ while IFS= read -d $'\0' -r file ; do
     rm $tifOut
 
     # Run jprofile
-    jprofile -p kb_300Colour_2014.xml $dirOutAbs jprofile
+    #jprofile -p kb_300Colour_2014.xml $dirOutAbs jprofile
 
 done < <(find $dirIn -type f -regex '.*\.\(jp2\|JP2\)' -print0)
