@@ -4,7 +4,7 @@
 # Requires: 
 # - Grok
 # - ExifTool
-# - realpath
+# - jprofile
 
 if [ "$#" -ne 2 ] ; then
   echo "Usage: mastertoaccess-grok.sh dirIn dirOut" >&2
@@ -24,13 +24,19 @@ if ! [ -d "$dirOut" ] ; then
   mkdir "$dirOut"
 fi
 
+dirAccess="$dirOut"/access
+
+if ! [ -d "$dirAccess" ] ; then
+  mkdir "$dirAccess"
+fi
+
 # Log file (used too store Kakadu and Exiftool stdout, stderr)
 logFile=$dirOut/tifftojp2.log
 
 # Grok status file (used to store Kakadu exit status)
 grokStatusFile=$dirOut/grokStatus.csv
 
-# Remove log and checksum files if they exist already (writing done in append mode!)
+# Remove log and status files if they exist already (writing done in append mode!)
 if [ -f $logFile ] ; then
   rm $logFile
 fi
@@ -42,24 +48,11 @@ fi
 # Codestream comment string for access images
 cCommentAccess="KB_ACCESS_LOSSY_01/01/2015"
 
-# First clone the directory structure of dirIn to dirOut 
-
-while IFS= read -d $'\0' -r directory ; do
-    # Directory path, relative to dirIn
-    dirInRel=$(realpath --relative-to=$dirIn $directory)
-
-    # Absolute path to folder in output directory
-    dirOutAbs=$dirOut/$dirInRel
-
-    # Create folder in output directory
-    mkdir -p $dirOutAbs
-done < <(find $dirIn -type d -print0)
-
 # Iterate over all files in dirIn and convert JP2s
 # to TIFF, then convert those TIFFs to lossy JP2
 # according to KB access specs.
 
-while IFS= read -d $'\0' -r file ; do
+while IFS= read -d $'\0' file ; do
 
     # File basename, extension removed
     bName=$(basename "$file" | cut -f 1 -d '.')
@@ -71,12 +64,9 @@ while IFS= read -d $'\0' -r file ; do
     # Input path
     inPath=$(dirname "$file")
 
-    # Input path, relative to dirIn
-    inPathRel=$(realpath --relative-to=$dirIn $inPath)
-
     # Full paths to output files
-    tifOut="$dirOut/$inPathRel/$outNameTIF"
-    jp2Out="$dirOut/$inPathRel/$outNameJP2"
+    tifOut="$dirAccess/$outNameTIF"
+    jp2Out="$dirAccess/$outNameJP2"
 
     # First convert master JP2 to TIFF
     cmdDecompress="grk_decompress -i "$file"
@@ -125,6 +115,6 @@ while IFS= read -d $'\0' -r file ; do
     rm $tifOut
 
     # Run jprofile
-    #jprofile -p kb_300Colour_2014.xml $dirOutAbs jprofile
+    jprofile -p kb_300Colour_2014.xml $dirAccess jprofile
 
 done < <(find $dirIn -type f -regex '.*\.\(jp2\|JP2\)' -print0)
