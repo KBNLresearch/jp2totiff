@@ -62,8 +62,6 @@ done < <(find $dirIn -type d -print0)
 
 while IFS= read -d $'\0' -r file ; do
 
-    echo $file >> $logFile
-
     # File basename, extension removed
     bName=$(basename "$file" | cut -f 1 -d '.')
     
@@ -83,14 +81,16 @@ while IFS= read -d $'\0' -r file ; do
 
     # First convert master JP2 to TIFF
     cmdDecompress="grk_decompress -i "$file"
-            -o "$tifOut""
+            -o "$tifOut"
+            -W "$logFile""
+    $cmdDecompress
     grokDecompressStatus=$?
-
-    echo "*** Grok log (decompress): ***" >> $logFile
-
-    $cmdDecompress >>$logFile 2>&1
-
     echo $tifOut,$grokDecompressStatus >> $grokStatusFile
+
+    # Remove all metadata from TIFF
+    # WORKAROUND for apparent bug in grk_compress
+    # that results in malformed embedded metadata!
+    exiftool -overwrite_original -all= -TagsFromFile @ -ColorSpaceTags "$tifOut"
 
     # Convert TIFF to lossy access JP2 according to KB specs
     # Note: for some reason setting the -t option results
@@ -107,18 +107,19 @@ while IFS= read -d $'\0' -r file ; do
            -S
            -E
            -M 32
-           -C "$cCommentAccess""
+           -C "$cCommentAccess"
+           -W "$logFile""
  
-    grokCompressStatus=$?
-
-    echo "*** Grok log (compress): ***" >> $logFile
-
     # Convert TIFF to lossy access JP2
-    $cmdCompress >>$logFile 2>&1
+    $cmdCompress
+    grokCompressStatus=$?
 
     echo $jp2Out,$grokCompressStatus >> $grokStatusFile
 
-    echo "------" >> $logFile
+    # Add XMP metadata from source JP2
+    # WORKAROUND for apparent bug in grk_compress
+    # that results in malformed embedded metadata!
+    exiftool -overwrite_original -tagsfromfile "$file" -xmp "$jp2Out"
 
     # Remove TIFF file
     rm $tifOut
