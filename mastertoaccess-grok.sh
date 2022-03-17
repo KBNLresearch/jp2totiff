@@ -70,8 +70,8 @@ while IFS= read -d $'\0' file ; do
 
     # First convert master JP2 to TIFF
     cmdDecompress="grk_decompress -i "$file"
-            -o "$tifOut"
-            -W "$logFile""
+          -o "$tifOut"
+          -W "$logFile""
     $cmdDecompress
     grokDecompressStatus=$?
     echo $tifOut,$grokDecompressStatus >> $grokStatusFile
@@ -104,7 +104,7 @@ while IFS= read -d $'\0' file ; do
     # Remove TIFF file
     rm $tifOut
 
-    # Run jprofile
-    jprofile -p kb_300Colour_2014.xml $dirAccess jprofile
-
 done < <(find $dirIn -type f -regex '.*\.\(jp2\|JP2\)' -print0)
+
+# Run jprofile
+jprofile -p kb_300Colour_2014.xml $dirAccess jprofile
