@@ -72,6 +72,7 @@ while IFS= read -d $'\0' file ; do
     cmdDecompress="grk_decompress -i "$file"
           -o "$tifOut"
           -W "$logFile""
+
     $cmdDecompress
     grokDecompressStatus=$?
     echo $tifOut,$grokDecompressStatus >> $grokStatusFile
@@ -94,11 +95,9 @@ while IFS= read -d $'\0' file ; do
            -M 32
            -C "$cCommentAccess"
            -W "$logFile""
- 
-    # Convert TIFF to lossy access JP2
+
     $cmdCompress
     grokCompressStatus=$?
-
     echo $jp2Out,$grokCompressStatus >> $grokStatusFile
 
     # Remove TIFF file
