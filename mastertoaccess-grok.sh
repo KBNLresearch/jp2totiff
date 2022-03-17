@@ -76,11 +76,6 @@ while IFS= read -d $'\0' file ; do
     grokDecompressStatus=$?
     echo $tifOut,$grokDecompressStatus >> $grokStatusFile
 
-    # Remove all metadata from TIFF, except ICC profile
-    # WORKAROUND for apparent bug in grk_compress
-    # that results in malformed embedded metadata!
-    exiftool -overwrite_original -all= -TagsFromFile @ -ColorSpaceTags "$tifOut"
-
     # Convert TIFF to lossy access JP2 according to KB specs
     # Note: XMP metadata are written to UUID box, whereas KB
     # specs prescribe XML box. Don't think this is a problem
@@ -105,11 +100,6 @@ while IFS= read -d $'\0' file ; do
     grokCompressStatus=$?
 
     echo $jp2Out,$grokCompressStatus >> $grokStatusFile
-
-    # Add XMP metadata from source JP2
-    # WORKAROUND for apparent bug in grk_compress
-    # that results in malformed embedded metadata!
-    exiftool -overwrite_original -tagsfromfile "$file" -xmp "$jp2Out"
 
     # Remove TIFF file
     rm $tifOut
