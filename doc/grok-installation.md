@@ -45,7 +45,7 @@ git clone https://github.com/GrokImageCompression/grok.git
 <!--
 Download latest source distribution from:
 
-<https://github.com/GrokImageCompression/grok/releases>
+<https://github.com/GrokImageCompression/grok/releases/latest>
 </strike>
 Then unzip.
 
