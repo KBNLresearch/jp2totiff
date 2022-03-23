@@ -103,6 +103,9 @@ while IFS= read -d $'\0' file ; do
     # Remove TIFF file
     rm $tifOut
 
+    # Remove XMP sidecar file
+    rm $xmpName
+
 done < <(find $dirIn -type f -regex '.*\.\(jp2\|JP2\)' -print0)
 
 # Run jprofile
