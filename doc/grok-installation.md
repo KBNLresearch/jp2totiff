@@ -1,6 +1,6 @@
 # Grok build process and installation
 
-This note documents the build process for Grok (including all third-party libraries that are needed to support various input formats andv ICC profiles).
+This note documents the build process for Grok (including all third-party libraries that are needed to support various input formats andv ICC profiles). Partially based on [Bill Comstock's notes](https://wiki.harvard.edu/confluence/display/DigitalImaging/Installing+OpenJPEG+on+Windows+10%2C+Linux%2C+and+MacOS).
 
 ## Target OS
 
