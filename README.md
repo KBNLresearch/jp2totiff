@@ -52,7 +52,6 @@ Requires:
 
 - Grok (grk_decompress and grk_compress)
 - ExifTool
-- realpath
 - [jprofile](https://github.com/KBNLresearch/jprofile)
 
 ### mastertoaccess-kdu.sh
@@ -70,4 +69,19 @@ Requires:
 - Kakadu (kdu_expand and kdu_compress)
 - ExifTool
 - sed
+- [jprofile](https://github.com/KBNLresearch/jprofile)
+
+### mastertoaccess-opj.sh
+
+Takes a  directory with (lossless master) JP2 images, and converts them to lossy JP2 according to KB specifications using OpenJPEG.
+
+Usage:
+
+```
+mastertoaccess-grok.sh dirIn dirOut
+```
+
+Requires:
+
+- OpenJPEG (opj_decompress and opj_compress)
 - [jprofile](https://github.com/KBNLresearch/jprofile)
