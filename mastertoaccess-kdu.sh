@@ -139,4 +139,4 @@ while IFS= read -d $'\0' file ; do
 done < <(find $dirIn -type f -regex '.*\.\(jp2\|JP2\)' -print0)
 
 # Run jprofile
-jprofile -p kb_300Colour_2014.xml $dirAccess jprofile
+jprofile -p kb_300Colour_2014.xml $dirAccess jprofile-kdu
