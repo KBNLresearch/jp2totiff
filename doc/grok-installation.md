@@ -1,10 +1,15 @@
-# Grok installation
+# Grok build process and installation
+
+This note documents the build process for Grok (including all third-party libraries that are needed to support various input formats andv ICC profiles).
 
 ## Target OS
+
 Linux Mint 20.1 Ulyssa (based on Ubuntu Focal Fossa 20.04).
 
 ## Dev environment
+
 Install latest C and C++ compilers:
+
 ```
 sudo apt install gcc-10
 sudo apt install g++-10
@@ -15,11 +20,13 @@ Configure update alternatives so that newly installed compilers are used:
 ```
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
 ```
+
 Uninstall current version of cmake (which is too old for Grok):
 
 ```
 sudo apt purge --auto-remove cmake
 ```
+
 Install newer version as per [here](https://askubuntu.com/a/1157132/1052776):
 
 ```
@@ -34,22 +41,17 @@ sudo apt install cmake
 ```
 sudo apt-get install pkg-config libltdl-dev liblcms2-dev libtiff-dev libpng-dev libz-dev libzstd-dev libwebp-dev
 ```
+
 ## Grok build process 
 
-Clone repository (note: should really download source ZIP from latest release, but couldn't succesfully compile that bc of problems with third-party libraries,  which was apparently fixed recently):
-
-```
-git clone https://github.com/GrokImageCompression/grok.git
-```
-
-<!--
 Download latest source distribution from:
 
 <https://github.com/GrokImageCompression/grok/releases/latest>
-</strike>
+
 Then unzip.
 
--->
+Note: earlier (9.7.3 and before) source distributions failed to compile because of [missing subdirectories in the "thirdparty" directory](https://github.com/GrokImageCompression/grok/issues/296). This is fixed from version 9.7.4 onwards.
+
 
 Go to Grok directory:
 
@@ -64,7 +66,7 @@ mkdir build
 cd build
 ```
 
-List all build options:
+If you want to list all the build options:
 
 ```
 cmake .. -LA  '{if(f)print} /-- Cache values/{f=1}'
