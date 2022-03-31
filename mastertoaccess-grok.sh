@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Convert directory tree with JP2 lossless master images to  lossy access JP2s
+# Convert directory with JP2 lossless master images to  lossy access JP2s
 # Requires: 
 # - Grok
 # - ExifTool

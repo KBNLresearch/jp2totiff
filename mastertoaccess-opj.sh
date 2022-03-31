@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Convert directory tree with JP2 lossless master images to  lossy access JP2s
+# Convert directory with JP2 lossless master images to  lossy access JP2s
 # Requires: 
 # - OpenJPEG
 # - ExifTool
@@ -29,6 +29,9 @@ dirAccess="$dirOut"/access
 if ! [ -d "$dirAccess" ] ; then
   mkdir "$dirAccess"
 fi
+
+# Location of OpenJPEG binaries
+opjPath=/Applications/openjpeg/bin
 
 # Log file (used too store opj stdout, stderr)
 logFile=$dirOut/mastertoaccess-opj.log
@@ -69,7 +72,7 @@ while IFS= read -d $'\0' file ; do
     jp2Out="$dirAccess/$outNameJP2"
 
     # First convert master JP2 to TIFF
-    cmdDecompress="/home/johan/openjpeg-2.4.0/build/bin/opj_decompress -i "$file"
+    cmdDecompress="$opjPath/opj_decompress -i "$file"
           -o "$tifOut"
           -W "$logFile""
 
@@ -81,7 +84,7 @@ while IFS= read -d $'\0' file ; do
     # Note: XMP metadata are written to UUID box, whereas KB
     # specs prescribe XML box. Don't think this is a problem
     # for access images. 
-    cmdCompress="/home/johan/openjpeg-2.4.0/build/bin/opj_compress -i "$tifOut"
+    cmdCompress="$opjPath/opj_compress -i "$tifOut"
            -o "$jp2Out"
            -I
            -n 6

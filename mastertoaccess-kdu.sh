@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Convert directory tree with JP2 lossless master images to  lossy access JP2s
+# Convert directory with JP2 lossless master images to  lossy access JP2s
 # Requires: 
 # - Kakadu
 # - ExifTool
@@ -32,7 +32,7 @@ if ! [ -d "$dirAccess" ] ; then
 fi
 
 # Location of Kakadu binaries
-kduPath=~/kakadu
+kduPath=/Applications/kakadu
 
 # Add Kakadu path to LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$kduPath
