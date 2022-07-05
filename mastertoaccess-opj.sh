@@ -72,9 +72,10 @@ while IFS= read -d $'\0' file ; do
     jp2Out="$dirAccess/$outNameJP2"
 
     # First convert master JP2 to TIFF
-    cmdDecompress="$opjPath/opj_decompress -i "$file"
+    cmdDecompress="$opjPath/opj_decompress -threads 4
+          -i "$file"
           -o "$tifOut"
-          -W "$logFile""
+          -threads 4"
 
     $cmdDecompress
     opjDecompressStatus=$?
@@ -84,7 +85,8 @@ while IFS= read -d $'\0' file ; do
     # Note: XMP metadata are written to UUID box, whereas KB
     # specs prescribe XML box. Don't think this is a problem
     # for access images. 
-    cmdCompress="$opjPath/opj_compress -i "$tifOut"
+    cmdCompress="$opjPath/opj_compress -threads 4
+           -i "$tifOut"
            -o "$jp2Out"
            -I
            -n 6
@@ -96,8 +98,7 @@ while IFS= read -d $'\0' file ; do
            -S
            -E
            -M 32
-           -C "$cCommentAccess"
-           -W "$logFile""
+           -C "$cCommentAccess""
 
     $cmdCompress
     opjCompressStatus=$?
