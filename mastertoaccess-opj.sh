@@ -74,8 +74,7 @@ while IFS= read -d $'\0' file ; do
     # First convert master JP2 to TIFF
     cmdDecompress="$opjPath/opj_decompress -threads ALL_CPUS
           -i "$file"
-          -o "$tifOut"
-          -threads 4"
+          -o "$tifOut""
 
     $cmdDecompress
     opjDecompressStatus=$?
