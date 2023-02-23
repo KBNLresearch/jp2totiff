@@ -73,7 +73,7 @@ Requires:
 
 ### mastertoaccess-opj.sh
 
-Takes a  directory with (lossless master) JP2 images, and converts them to lossy JP2 according to KB specifications using OpenJPEG.
+Takes a directory with (lossless master) JP2 images, and converts them to lossy JP2 according to KB specifications using OpenJPEG.
 
 Usage:
 
@@ -85,3 +85,18 @@ Requires:
 
 - OpenJPEG (opj_decompress and opj_compress)
 - [jprofile](https://github.com/KBNLresearch/jprofile)
+
+### jp2topdf-grok.sh
+
+Takes a  directory with (lossless master) JP2 images, and converts them to single PDF files using different JPEG quality levels.
+
+Usage:
+
+```
+jp2topdf-grok.sh prefix dirIn dirOut
+```
+
+Requires:
+
+- Grok (grk_decompress)
+- ImageMagick
