@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Performs pixel-wise check between images in two directory trees
-# Requires: 
-# - ImageMagick
-# - realpath
+# Performs pixel-wise check between TIFF images in two directory trees
+# Requires ImageMagick
+#set -euo pipefail
 
+set -uo pipefail
 
 if [ "$#" -ne 3 ] ; then
-  echo "Usage: pixelCheck.sh dir1 dir2 dirOut" >&2
+  echo "Usage: pixelCheck-im.sh dir1 dir2 dirOut" >&2
   exit 1
 fi
 
@@ -33,7 +33,7 @@ fi
 # Output file
 fileOut=$dirOut/pixelCheck.csv
 
-# Remove loutput file if it exists already (writing done in append mode!)
+# Remove output file if it exists already (writing done in append mode!)
 if [ -f $fileOut ] ; then
   rm $fileOut
 fi
@@ -46,13 +46,7 @@ echo "file1","file2","ae","psnr" >> $fileOut
 
 while IFS= read -d $'\0' -r file ; do
 
-    # File basename, extension removed
-    #bName=$(basename "$file" | cut -f 1 -d '.')
     file1="$file"
-    #bName=$(basename "$file")
-    
-    # Output name
-    #outName=$bName.jp2
     file2Name=$(basename "$file")
 
     # Input path
@@ -71,5 +65,4 @@ while IFS= read -d $'\0' -r file ; do
  
 done < <(find $dir1 -type f -regex '.*\.\(tiff\|TIFF\|tif\|TIF\)' -print0)
 
-# Power off the machine
-# poweroff
+
