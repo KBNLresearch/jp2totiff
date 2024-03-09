@@ -58,8 +58,8 @@ while IFS= read -d $'\0' -r file ; do
     # Full path to corresponding file in dir2
     file2="$dir2/$inPathRel/$file2Name"
 
-    ae=$(compare -quiet -metric AE "$file1" "$file2" null: 2>&1)
-    psnr=$(compare -quiet -metric psnr "$file1" "$file2" null: 2>&1)
+    ae=$(compare -quiet -metric AE "$file1""[0]" "$file2""[0]" null: 2>&1)
+    psnr=$(compare -quiet -metric psnr "$file1""[0]" "$file2""[0]" null: 2>&1)
 
     echo "$file1","$file2","$ae","$psnr" >> $fileOut
  
