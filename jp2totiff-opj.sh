@@ -97,9 +97,25 @@ while IFS= read -d $'\0' -r file ; do
 
     echo "*** Exiftool log: ***" >> $logFile
 
+    # Extract capture X- and Y resolution values
+    cResolutions=$(exiftool -s3 -Jpeg2000:CaptureXResolution -Jpeg2000:CaptureYResolution "$file" 2>&1)
+
+    # Store values in array
+    IFS=$'\n'
+    cResArray=(${cResolutions// / })
+    unset IFS;
+    xResolution=${cResArray[0]}
+    yResolution=${cResArray[1]}
+
+    # Convert to PPI (assuming Jpeg2000:DisplayXResolutionUnit and
+    # Jpeg2000:DisplayYResolutionUnit are both 0.01 mm)
+    xPPI=$(bc -l <<<"${xResolution}*2540")
+    yPPI=$(bc -l <<<"${yResolution}*2540")
+
+    # Write PPI values to TIFF
     exiftool -o "$tiffOut" \
-              -XResolution=300 \
-              -YResolution=300 \
+              -XResolution=$xPPI \
+              -YResolution=$yPPI \
               -ResolutionUnit=inches \
               "$tiffTemp" >>$logFile 2>&1
 
