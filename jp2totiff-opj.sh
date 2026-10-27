@@ -97,6 +97,9 @@ while IFS= read -d $'\0' -r file ; do
 
     echo "*** Exiftool log: ***" >> $logFile
 
+    # Extract ICC profile
+    exiftool -icc_profile -b "$file" > profile.icc
+
     # Extract capture X- and Y resolution values
     cResolutions=$(exiftool -s3 -Jpeg2000:CaptureXResolution -Jpeg2000:CaptureYResolution "$file" 2>&1)
 
@@ -117,9 +120,11 @@ while IFS= read -d $'\0' -r file ; do
               -XResolution=$xPPI \
               -YResolution=$yPPI \
               -ResolutionUnit=inches \
+              "-icc_profile<=profile.icc" \
               "$tiffTemp" >>$logFile 2>&1
 
     rm "$tiffTemp"
+    rm profile.icc
 
     # Compute MD5 checksum
     md5sum "$tiffOut" >> $checksumFile
