@@ -4,7 +4,7 @@ Various scripts for converting to and from JP2 (JPEG 2000 Part 1).
 
 ### jp2totiff.sh
 
-Takes a  directory tree with JP2 images, and converts them to TIFF.
+Takes a directory tree with JP2 images, and converts them to TIFF.
 
 Usage:
 
@@ -19,6 +19,26 @@ Requires:
 - Kakadu (kdu_expand)
 - ExifTool
 - realpath
+
+### jp2totiff-opj.sh
+
+Takes a directory tree with JP2 images, and converts them to TIFF using OpenJPEG. For each JP2, the script also extracts the ICC profile and capture resolution values, which are added to the output tiff using ExifTool. 
+
+Usage:
+
+```
+jp2totiff-opj.sh dirIn dirOut
+```
+
+The directory structure of *dirIn* is cloned to *dirOut*.
+
+Requires:
+
+- OpenJPEG (opj_decompress)
+- ExifTool
+- realpath
+
+
 
 ### tifftojp2.sh
 
