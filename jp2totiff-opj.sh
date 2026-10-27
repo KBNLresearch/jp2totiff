@@ -115,7 +115,7 @@ while IFS= read -d $'\0' -r file ; do
     xPPI=$(bc -l <<<"${xResolution}*2540")
     yPPI=$(bc -l <<<"${yResolution}*2540")
 
-    # Write PPI values to TIFF
+    # Write PPI values and ICC profile to TIFF
     exiftool -o "$tiffOut" \
               -XResolution=$xPPI \
               -YResolution=$yPPI \
@@ -123,6 +123,7 @@ while IFS= read -d $'\0' -r file ; do
               "-icc_profile<=profile.icc" \
               "$tiffTemp" >>$logFile 2>&1
 
+    # Remove temporary files
     rm "$tiffTemp"
     rm profile.icc
 
